@@ -57,7 +57,6 @@ resource "azurerm_network_interface" "nic1" {
     name                          = "testconfiguration1"
     subnet_id                     = azurerm_subnet.subnet11.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.public.id
   }
 }
 resource "azurerm_network_security_group" "nsg1" {
