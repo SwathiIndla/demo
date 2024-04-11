@@ -116,17 +116,18 @@ resource "azurerm_virtual_machine" "demo-vm" {
       key_data = tls_private_key.key-value.public_key_openssh
     }
   }
-  connection {
+  
+
+  provisioner "file" {
+    source      = "app.py"  # Replace with the path to your local file
+    destination = "/home/testadmin/app.py"  # Replace with the path on the remote instance
+    connection {
     type        = "ssh"
     user        = "testadmin"  # Replace with the appropriate username for your EC2 instance
     private_key =  tls_private_key.key-value.private_key_openssh
                      # Replace with the path to your private key
     host        = azurerm_public_ip.public.ip_address
   }
-
-  provisioner "file" {
-    source      = "app.py"  # Replace with the path to your local file
-    destination = "/home/testadmin/app.py"  # Replace with the path on the remote instance
   }
 
   provisioner "remote-exec" {
