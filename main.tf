@@ -79,7 +79,7 @@ resource "azurerm_network_security_rule" "ssh" {
   network_security_group_name = azurerm_network_security_group.nsg1.name
 }
 resource "azurerm_virtual_machine" "demo-vm" {
-  name                  = "vm"
+  name                  = "rm-vm"
   location              = azurerm_resource_group.demo-rm.location
   resource_group_name   = azurerm_resource_group.demo-rm.name
   network_interface_ids = [azurerm_network_interface.nic1.id]
