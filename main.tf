@@ -42,7 +42,12 @@ resource "azurerm_subnet" "subnet11" {
   virtual_network_name = azurerm_virtual_network.vnet1.name
   address_prefixes     = ["10.0.2.0/24"]
 }
-
+resource "azurerm_public_ip" "public" {
+  name                = "myPublicIP"
+  location            = azurerm_resource_group.demo-rm.location
+  resource_group_name = azurerm_resource_group.demo-rm.name
+  allocation_method   = "Dynamic"
+}
 resource "azurerm_network_interface" "nic1" {
   name                = "vm-nic"
   location            = azurerm_resource_group.demo-rm.location
@@ -52,6 +57,7 @@ resource "azurerm_network_interface" "nic1" {
     name                          = "testconfiguration1"
     subnet_id                     = azurerm_subnet.subnet11.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.public.id
   }
 }
 resource "azurerm_network_security_group" "nsg1" {
@@ -116,7 +122,7 @@ resource "azurerm_virtual_machine" "demo-vm" {
     user        = "testadmin"  # Replace with the appropriate username for your EC2 instance
     private_key =  tls_private_key.key-value.private_key_openssh
                      # Replace with the path to your private key
-    host        = self.public_ip
+    host        = azurerm_public_ip.public.ip_address
   }
 
   provisioner "file" {
