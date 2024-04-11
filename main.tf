@@ -126,7 +126,7 @@ resource "azurerm_virtual_machine" "demo-vm" {
     user        = "testadmin"  # Replace with the appropriate username for your EC2 instance
     private_key =  tls_private_key.key-value.private_key_openssh
                      # Replace with the path to your private key
-    host        = azurerm_public_ip.public.ip_address
+    host        = azurerm_network_interface.nic1.private_ip_address
   }
   }
 
